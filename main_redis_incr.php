@@ -17,10 +17,16 @@ class AtomicIncr {
     protected $intLoopNum;
 
     /**
-     * test case 原子性目标的key
+     * test case 原子性key
      * @var string
      */
-    protected $strTargetKey;
+    protected $strAtomicKey;
+
+    /**
+     * test case 非原子性key
+     * @var string
+     */
+    protected $strNonAtomicKey;
 
     /**
      * AtomicIncr constructor
@@ -35,8 +41,9 @@ class AtomicIncr {
         ]);
         $floatConnTime = Timer::stop('redisconn');
         Logger::log("redis连接耗时:". $floatConnTime * 1000 . 'ms');
-        $this->intLoopNum = 100000;
-        $this->strTargetKey = 'counter';
+        $this->intLoopNum = 1000;
+        $this->strAtomicKey = 'atomic:counter';
+        $this->strNonAtomicKey = 'nonatomic:counter';
     }
 
     /**
@@ -44,16 +51,10 @@ class AtomicIncr {
      */
     public function testCaseForIncr()
     {
-        Timer::start('testcaseforinc');
-        Logger::log("测试:incr 原子性 对比原始");
-        Logger::log("原始值：". $this->objRedisConn->get($this->strTargetKey));
         for ($i = 0; $i < $this->intLoopNum; $i++) {
-//            $this->mockIncr();
+            $this->mockIncr();
             $this->mockIncr(false);
         }
-        Logger::log("目标值：". $this->objRedisConn->get($this->strTargetKey));
-        $floatExecuteTIme = Timer::stop('testcaseforinc');
-        Logger::log("测试:incr 原子性 对比原始 执行时间:". $floatExecuteTIme);
     }
 
     /**
@@ -63,14 +64,14 @@ class AtomicIncr {
     public function mockIncr($bolIsAtomic = true)
     {
         if ($bolIsAtomic) {
-            $this->objRedisConn->incr($this->strTargetKey);
+            $this->objRedisConn->incr($this->strAtomicKey);
         } else {
-            $strValue = $this->objRedisConn->get($this->strTargetKey);
+            $strValue = $this->objRedisConn->get($this->strNonAtomicKey);
             if (empty($strValue)) {
                 $strValue = 0;
             }
             $strValue++;
-            $this->objRedisConn->set($this->strTargetKey, $strValue);
+            $this->objRedisConn->set($this->strNonAtomicKey, $strValue);
         }
     }
 }

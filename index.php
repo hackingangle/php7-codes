@@ -8,7 +8,7 @@ echo <<< EOF
 <body>
     <ul>
         <li>
-            <a href="/main_redis_incr.php">redis命令incr原子性</a>
+            <a href="/main_redis_incr_boostrap.php">redis命令incr原子性</a>
         </li>
     </ul>
 </body>
