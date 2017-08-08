@@ -22,5 +22,9 @@
     - `php -S 127.0.0.1:8888 -t ./`
 1. 打开浏览器，输入地址
     - `http://127.0.0.1:8888/`
-1. 示例如下
-    - ![chrome浏览器截图](/images/chrome_view_index_screen.png)
+1. 运行结果
+    - 列表
+        - ![welcome](/images/welcome.jpeg)
+    - 点击具体程序
+        - 如原子性incr
+            - ![atomic](/images/atomic.jpeg)
