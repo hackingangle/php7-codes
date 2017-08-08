@@ -8,7 +8,7 @@ echo "开始执行测试"
 
 for intLoopNum in {1..10}
 do
-    nohup php main_redis_incr.php >> ./main_redis_incr.log &
+    nohup php main_redis_incr.php >> /dev/null &
 done
 
 sleep 2
